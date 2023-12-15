@@ -75,12 +75,12 @@ class Boat
     }
     public function goE():self
     {
-        $this->setCoordY($this->coordX += 1);
+        $this->setCoordX($this->coordX += 1);
         return $this;
     }
     public function goW():self
     {
-        $this->setCoordY($this->coordX -= 1);
+        $this->setCoordX($this->coordX -= 1);
         return $this;
     }
 }
