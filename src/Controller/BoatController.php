@@ -68,13 +68,12 @@ class BoatController extends AbstractController
                 $newY = $boat->getCoordY();
                 break;
             default:
-                throw new \InvalidArgumentException("Invalid direction: $direction");
+                throw new \InvalidArgumentException("ERROR");
         }
 
         // Vérifie si la tuile de destination existe
-        if (!$this->mapManager->tileExists($newX, $newY)) {
-            // La tuile n'existe pas, affichez un message d'erreur
-            $this->addFlash('error', 'Destination tile does not exist.');
+        if (!$this->mapManager->tileExist($newX, $newY)) {
+            $this->addFlash('error!!!!');
             return $this->redirectToRoute('map');
         }
 
