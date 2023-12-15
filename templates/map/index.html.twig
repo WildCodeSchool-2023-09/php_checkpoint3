@@ -61,7 +61,12 @@
 					<h2>
 						Navigation
 					</h2>
-					{# Add here N/S/E/W buttons #}
+					<div class="navigation">
+				<a href="{{ path('moveDirection', {'move': 'N'}) }}">Haut</a>
+				<a href="{{ path('moveDirection', {'move': 'S'}) }}">Bas</a>
+				<a href="{{ path('moveDirection', {'move': 'E'}) }}">Droite</a>
+				<a href="{{ path('moveDirection', {'move': 'W'}) }}">Gauche</a>
+			</div>
 				</div>
 			</div>
 		</div>
