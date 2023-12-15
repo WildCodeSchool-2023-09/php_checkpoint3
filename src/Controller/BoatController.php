@@ -27,4 +27,19 @@ class BoatController extends AbstractController
         
         return $this->redirectToRoute('map');
     }
+
+    #[Route('/direction/{direction}', requirements: ['direction'=>'[NSEW]'], name: 'direction')]
+    public function moveDirection(
+        string $direction,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $boat = $boatRepository->findOneBy([]);
+        $order = 'go' . $direction;
+        $boat->$order();
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('map');
+    }
 }

@@ -62,4 +62,25 @@ class Boat
 
         return $this;
     }
+
+    public function goN():self
+    {
+        $this->setCoordY($this->coordY -= 1);
+        return $this;
+    }
+    public function goS():self
+    {
+        $this->setCoordY($this->coordY += 1);
+        return $this;
+    }
+    public function goE():self
+    {
+        $this->setCoordY($this->coordX += 1);
+        return $this;
+    }
+    public function goW():self
+    {
+        $this->setCoordY($this->coordX -= 1);
+        return $this;
+    }
 }
