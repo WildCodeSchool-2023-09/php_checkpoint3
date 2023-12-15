@@ -92,3 +92,33 @@
 h2 {
     font-size: 1.3em;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.pad{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    border-radius: 16px;
+    -webkit-box-shadow: 4px 5px 10px #000000;
+    -moz-box-shadow: 4px 5px 10px #000000;
+    box-shadow: 4px 5px 10px #000000;
+    color: #000000;
+    font-size: 26px;
+    background: #D0AB60;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    margin : 1rem 1rem;
+}
+
+.btn:hover {
+    background: #ffffff;
+    text-decoration: none;
+}
