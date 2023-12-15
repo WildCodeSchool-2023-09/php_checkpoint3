@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Boat;
+use App\Service\MapManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,5 +29,22 @@ class MapController extends AbstractController
             'map'  => $map ?? [],
             'boat' => $boat,
         ]);
+    }
+
+    #[Route('/start', name: 'startGame')]
+    public function start(MapManager $mapManager, EntityManagerInterface
+    $entityManager) : Response
+    {
+        $boat = $entityManager->getRepository(Boat::class)->findOneBy([]);
+
+        $boat->setCoordX(0);
+        $boat->setCoordY(0);
+
+        $mapManager->placeTreasureOnRandomIsland();
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('map');
+
     }
 }
