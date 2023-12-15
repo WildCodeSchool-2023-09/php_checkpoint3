@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\MapManager;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+//use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 
 
@@ -65,7 +65,6 @@ public function moveDirection(string $direction,
                 throw $this->createNotFoundException('Invalid direction');
         }
 
-        // Check if the new tile exists
         if ($this->mapManager->tileExists($newX ?? $boat->getCoordX(), $newY ?? $boat->getCoordY())) {
             if (isset($newX)) {
                 $boat->setCoordX($newX);
@@ -78,7 +77,7 @@ public function moveDirection(string $direction,
 
             return $this->redirectToRoute('map');
         } else {
-            $this->addFlash('error', 'Invalid move. The destination tile does not exist.');
+            $this->addFlash('error', 'Mouvement invalide. La vignette de destination existe pas.');
             return $this->redirectToRoute('map');
         }
     }

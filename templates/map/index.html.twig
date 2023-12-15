@@ -54,9 +54,9 @@
 					<h2>
 						Information
 					</h2>
-					<p>Coordinates: {{ boat.coordX }}, {{ boat.coordY }}</p>
+					<p>Coordonnés: {{ boat.coordX }}, {{ boat.coordY }}</p>
 					{% if map[boat.coordX][boat.coordY] is defined %}
-						<p>Tile Type: {{ map[boat.coordX][boat.coordY].type }}</p>
+						<p>Type de tuile: {{ map[boat.coordX][boat.coordY].type }}</p>
 					{% endif %}
 				</div>
 				<div
