@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\BoatRepository;
+use App\Service\MapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,7 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{direction}', name: 'moveDirection')]
-    public function moveDirection(string $direction, BoatRepository $boatRepository, EntityManagerInterface $em): Response
+    public function moveDirection(string $direction, BoatRepository $boatRepository, EntityManagerInterface $em, MapManager $mapManager): Response
     {
         $boat = $boatRepository->findOneBy([]);
 
@@ -50,9 +51,12 @@ class BoatController extends AbstractController
                 break;
         }
 
-        $em->flush();
-
+        if($mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())) {
+            $em->persist($boat);
+            $em->flush();
+        }else {
+            $this->addFlash('danger', 'You are leaving the map !!!');
+        }
         return $this->redirectToRoute('map');
-
     }
 }
