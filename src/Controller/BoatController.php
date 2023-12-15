@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\MapManager;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+
 
 
 #[Route('/boat')]
@@ -15,10 +17,12 @@ class BoatController extends AbstractController
 {
 
     private $mapManager;
+  //  private $flashBag;
 
     public function __construct(MapManager $mapManager)
     {
         $this->mapManager = $mapManager;
+      //  $this->flashBag = $flashBag;
     }
 
     #[Route('/move/{x<\d+>}/{y<\d+>}', name: 'moveBoat')]
@@ -74,7 +78,7 @@ public function moveDirection(string $direction,
 
             return $this->redirectToRoute('map');
         } else {
-          
+            $this->addFlash('error', 'Invalid move. The destination tile does not exist.');
             return $this->redirectToRoute('map');
         }
     }
