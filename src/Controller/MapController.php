@@ -39,12 +39,24 @@ class MapController extends AbstractController
     #[Route('/start', name: 'start')]
     public function start(
         BoatRepository $boatRepository,
+        TileRepository $tileRepository,
         EntityManagerInterface $entityManager
         ): Response
     {
         $boat = $boatRepository->findOneBy([]);
         $boat->setCoordX(0);
         $boat->setCoordY(0);
+
+        $tresor = $tileRepository->findOneBy(['hasTreasure' => true]);
+        if ($tresor) {
+            $tresor->setHasTreasure(false);
+        }
+
+        $randomIslandTile = $this->mapManager->getRandomIsland();
+        if ($randomIslandTile) {
+            $randomIslandTile->setHasTreasure(true);
+        }
+
 
         $entityManager->flush();
         return $this->redirectToRoute('map');
