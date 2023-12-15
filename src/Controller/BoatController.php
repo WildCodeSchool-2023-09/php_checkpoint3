@@ -48,6 +48,11 @@ class BoatController extends AbstractController
     {
         $boat = $boatRepository->findOneBy([]);
 
+        if (!$this->mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())) {
+            $this->addFlash('error', "La tuile n'existe pas.");
+            return $this->redirectToRoute('map');
+        }
+
         if ($direction === 'N') {
             $boat->setCoordY($boat->getCoordY() - 1);
         } elseif ($direction === 'S') {
@@ -59,6 +64,8 @@ class BoatController extends AbstractController
         }
         if ($this->mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())) {
             $entityManager->flush();
+        }else {
+            $this->addFlash('error', "La tuile n'existe pas.");
         }
         return $this->redirectToRoute('map');
     }
