@@ -31,10 +31,11 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{direction}', name: 'moveDirection')]
-    public function moveDirection(string $direction,
-                                  BoatRepository $boatRepository,
-                                  EntityManagerInterface $entityManager,
-                                  MapManager $mapManager): Response
+    public function moveDirection(
+        string $direction,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $entityManager,
+        MapManager $mapManager): Response
     {
         $boat = $boatRepository->findOneBy([]);
 

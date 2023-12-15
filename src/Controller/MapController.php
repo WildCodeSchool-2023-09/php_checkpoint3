@@ -30,10 +30,11 @@ class MapController extends AbstractController
     }
 
     #[Route('/start', name: 'start')]
-    public function start(BoatRepository $boatRepository,
-                          MapManager $mapManager,
-                          TileRepository $tileRepository,
-                          EntityManagerInterface $entityManager) :Response
+    public function start(
+        BoatRepository $boatRepository,
+        MapManager $mapManager,
+        TileRepository $tileRepository,
+        EntityManagerInterface $entityManager) :Response
     {
         $boat = $boatRepository->findOneBy([]);
         $boat->setCoordX(0);
@@ -46,10 +47,8 @@ class MapController extends AbstractController
         if ($previousTreasure != null) {
             $previousTreasure->setHasTreasure(false);
         }
-
         $randomIsland = $mapManager->getRandomIsland();
         $randomIsland->setHasTreasure(true);
-
         $entityManager->persist($boat);
         $entityManager->flush();
 
