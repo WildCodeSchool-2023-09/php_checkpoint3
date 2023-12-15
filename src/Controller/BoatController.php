@@ -47,7 +47,7 @@ class BoatController extends AbstractController
             return $this->redirectToRoute('map');
         }
 
-
+        $this->addFlash('danger', 'The word is over'); //
         return $this->redirectToRoute('map');
     }
 }
