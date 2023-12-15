@@ -38,9 +38,7 @@ class MapController extends AbstractController
         $boat->reset();
         //reset tiles
         $treasureTile = $tileRepository->findOneBy(['hasTreasure' => true]);
-        if ($treasureTile !== null) {
-            $treasureTile->setHasTreasure(false);
-        }
+        $treasureTile?->setHasTreasure(false);
         //put treasure
         $mapManager->getRandomIsland()->setHasTreasure(true);
         //save

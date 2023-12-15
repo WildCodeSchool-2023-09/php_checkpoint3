@@ -30,7 +30,7 @@ class BoatController extends AbstractController
         return $this->redirectToRoute('map');
     }
 
-    #[Route('/direction/{direction}', requirements: ['direction'=>'[NSEW]'], name: 'direction')]
+    #[Route('/direction/{direction}', name: 'direction', requirements: ['direction'=>'[NSEW]'])]
     public function moveDirection(
         string $direction,
         BoatRepository $boatRepository,

@@ -13,10 +13,7 @@ class MapManager
     }
     public function tileExists(int $x, int $y):bool
     {
-        if($this->tileRepository->findOneBy(['coordX' => $x, 'coordY' => $y]) !== null){
-            return true;
-        }
-        return false;
+        return $this->tileRepository->findOneBy(['coordX' => $x, 'coordY' => $y]) !== null;
     }
 
     public function getRandomIsland(): Tile
@@ -28,9 +25,7 @@ class MapManager
     public function checkTreasure(Boat $boat): bool
     {
         $treasureTile = $this->tileRepository->findOneBy(['hasTreasure' => true]);
-        if ($boat->getCoordX() === $treasureTile->getCoordX() && $boat->getCoordY() === $treasureTile->getCoordY()){
-            return true;
-        }
-        return false;
+
+        return $boat->isOn($treasureTile);
     }
 }

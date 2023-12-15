@@ -90,4 +90,11 @@ class Boat
         $this->setCoordY(0);
         return $this;
     }
+
+    public function isOn(Tile $tile):bool{
+        if ($this->coordX === $tile->getCoordX() && $this->coordY === $tile->getCoordY()){
+            return true;
+        }
+        return false;
+    }
 }
