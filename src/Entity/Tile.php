@@ -22,6 +22,9 @@ class Tile
     #[ORM\Column]
     private ?int $coordY = null;
 
+    #[ORM\Column(type: 'boolean', nullable: 'false', options: ['default' => false])]
+    private ?bool $hasTreasure = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,4 +65,22 @@ class Tile
 
         return $this;
     }
+
+    public function isHasTreasure(): ?bool
+    {
+        return $this->hasTreasure;
+    }
+
+    public function setHasTreasure(bool $hasTreasure): static
+    {
+        $this->hasTreasure = $hasTreasure;
+
+        return $this;
+    }
+
+    public function getHasTreasure(): ?bool
+    {
+        return $this->hasTreasure;
+    }
+
 }

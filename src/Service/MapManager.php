@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Tile;
 use App\Repository\TileRepository;
 
 class MapManager
@@ -20,5 +21,23 @@ class MapManager
             'coordY' => $coordY
         ]);
         return $tile != null;
+    }
+
+    public function getRandomIsland() : Tile
+    {
+        $islands = $this->tileRepository->findBy(
+            ['type' => 'island']
+        );
+        $treasureIsland = array_rand($islands, 1);
+        return $islands[$treasureIsland];
+    }
+
+    public function checkTreasure(Boat $boat): bool
+    {
+        $treasurePosition = $this->tileRepository->findOneBy(['hasTreasure' => true]);
+        if ($boat->getCoordX() === $treasurePosition->getCoordX() && $boat->getCoordY() === $treasurePosition->getCoordY()) {
+            return true;
+        }
+        return false;
     }
 }
