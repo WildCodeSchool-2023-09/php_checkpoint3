@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}
+				Checkpoint 3 PHP
+			{% endblock %}
+		</title>
+		<link rel="icon" type="image/png" sizes="24x24" href="{{ asset('build/images/favicon.ico' )}}">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			{% include '_navbar.html.twig' %}
+		</header>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }}">
+								{{ message }}
+							</div>
+						{% endfor %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		{% block body %}{% endblock %}
+		<!-- Latest compiled and minified CSS & JS -->
+
+	</body>
+</html>
