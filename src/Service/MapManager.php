@@ -2,6 +2,7 @@
 
 namespace App\Service;
 use App\Repository\TileRepository;
+use App\Entity\Tile;
 
 
 class MapManager
@@ -16,5 +17,13 @@ class MapManager
     {
         $tile = $this->tileRepository->findOneBy(['coordX' => $x, 'coordY' => $y]);
         return $tile !== null;
+    }
+
+    public function getRandomIsland(): ?Tile
+    {
+        $type = $this->tileRepository->findBy(['type' => 'island']);
+        $randomIslandTile = $type[array_rand($type)];
+
+        return $randomIslandTile;
     }
 }
