@@ -56,7 +56,7 @@ class BoatController extends AbstractController
         }
 
         if(!$mapManager->tileExists($x, $y)) {
-            $this->addFlash('message', 'NON, reviens tu vas te perdre');
+            $this->addFlash('alert', 'NON, reviens tu vas te perdre');
 
             return $this->redirectToRoute('map', [], Response::HTTP_SEE_OTHER);
         }
