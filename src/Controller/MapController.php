@@ -14,7 +14,7 @@ use App\Repository\TileRepository;
 class MapController extends AbstractController
 {
     #[Route('/map', name: 'map')]
-    public function displayMap(BoatRepository $boatRepository, TileRepository $tileRepository): Response
+    public function displayMap(BoatRepository $boatRepository, TileRepository $tileRepository, MapManager $mapManager): Response
     {
         $tiles = $tileRepository->findAll();
 
@@ -23,6 +23,14 @@ class MapController extends AbstractController
         }
 
         $boat = $boatRepository->findOneBy([]);
+
+        //Exercice 12
+        if ($mapManager->checkTreasure($boat)) {
+            $this->addFlash(
+                'success',
+                'You found the treasure !'
+            );
+        };
 
         return $this->render('map/index.html.twig', [
             'map'  => $map ?? [],
