@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: TileRepository::class)]
 class Tile
 {
@@ -59,6 +60,21 @@ class Tile
     public function setCoordY(int $coordY): self
     {
         $this->coordY = $coordY;
+
+        return $this;
+    }
+
+    private $hasTreasure = false;
+
+
+    public function getHasTreasure(): bool
+    {
+        return $this->hasTreasure;
+    }
+
+    public function setHasTreasure(bool $hasTreasure): self
+    {
+        $this->hasTreasure = $hasTreasure;
 
         return $this;
     }

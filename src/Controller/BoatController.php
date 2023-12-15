@@ -36,7 +36,7 @@ class BoatController extends AbstractController
         }
 
         // Get current boat coordinates
-        $coordinates = $boat->getCoordinates();
+        $coordinates = $boat->getCoordX();
         [$x, $y] = $coordinates;
 
         // Update coordinates based on direction
