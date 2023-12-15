@@ -42,7 +42,6 @@ class BoatController extends AbstractController
         $x = $boat->getCoordX();
         $y = $boat->getCoordY();
 
-
         if($direction === 'N'){
             $y --;
         } elseif($direction === 'S'){
