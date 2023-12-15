@@ -54,7 +54,18 @@
 					<h2>
 						Information
 					</h2>
-					{# Add here informations about current ship position #}
+					 {% if boat %}
+            <p>Boat Coordinates: ({{ boat.getCoordX() }}, {{ boat.getCoordY() }})</p>
+
+            {# Access the tile information from the boat entity if there's a direct relationship #}
+            {% if boat.tile %}
+                <p>Type of Tile: {{ boat.tile.getType() }}</p>
+            {% else %}
+                <p>No tile found for the boat's coordinates</p>
+            {% endif %}
+        {% else %}
+            <p>No boat found</p>
+        {% endif %}
 				</div>
 				<div
 					class="navigation">

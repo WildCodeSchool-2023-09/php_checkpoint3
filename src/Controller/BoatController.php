@@ -7,29 +7,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MapManager;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-#[Route('/boat')]
+
+
+
 class BoatController extends AbstractController
 {
-    #[Route('/move/{x<\d+>}/{y<\d+>}', name: 'moveBoat')]
-    public function moveBoat(
-        int $x,
-        int $y,
-        BoatRepository $boatRepository,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $boat = $boatRepository->findOneBy([]);
+    private $mapManager;
 
-        if (!$boat) {
-            throw $this->createNotFoundException('No boat found');
-        }
-
-        $boat->setCoordX($x);
-        $boat->setCoordY($y);
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('map');
+    public function __construct(MapManager $mapManager)
+    {
+        $this->mapManager = $mapManager;
     }
 
     #[Route('/direction/{direction}', name: 'move_direction', requirements: ['direction' => '[NSWE]'])]
@@ -71,6 +62,15 @@ class BoatController extends AbstractController
                 throw $this->createNotFoundException('Invalid direction');
         }
 
+        // Check if the tile exists before moving the boat
+        if (!$this->mapManager->tileExists($x, $y)) {
+            // Flash error message
+            $this->flashBag->add('error', 'Destination tile does not exist');
+            
+            // Redirect to the map
+            return $this->redirectToRoute('map');
+        }
+
         // Update Boat coordinates
         $boat->setCoordinates([$x, $y]);
 
@@ -80,3 +80,5 @@ class BoatController extends AbstractController
         return $this->redirectToRoute('map');
     }
 }
+
+

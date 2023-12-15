@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tile;
 use App\Repository\BoatRepository;
 use App\Repository\TileRepository;
+use App\Service\MapManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MapController extends AbstractController
 {
