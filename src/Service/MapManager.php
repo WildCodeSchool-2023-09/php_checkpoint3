@@ -26,4 +26,10 @@ class MapManager
 
         return $randomIslandTile;
     }
+
+    public function checkTreasure(Boat $boat): bool
+    {
+        $tile = $this->tileRepository->findOneBy(['coordX' => $x, 'coordY' => $y]);
+        return $tile !== null && $tile->isHasTreasure();
+    }
 }
