@@ -27,4 +27,32 @@ class BoatController extends AbstractController
         
         return $this->redirectToRoute('map');
     }
+
+    #[Route('/direction/{direction} ', name: 'moveDirection')]
+public function moveDirection(string $direction,
+ BoatRepository $boatRepository, EntityManagerInterface $entityManager): Response
+    {
+        $boat = $boatRepository->findOneBy([]);
+
+        switch ($direction) {
+            case 'N':
+                $boat->setCoordY($boat->getCoordY() - 1);
+                break;
+            case 'S':
+                $boat->setCoordY($boat->getCoordY() + 1);
+                break;
+            case 'E':
+                $boat->setCoordX($boat->getCoordX() + 1);
+                break;
+            case 'W':
+                $boat->setCoordX($boat->getCoordX() - 1);
+                break;
+            default:
+                throw $this->createNotFoundException('Invalid direction');
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('map');
+    }
 }
