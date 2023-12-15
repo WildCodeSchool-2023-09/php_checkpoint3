@@ -38,8 +38,10 @@ class BoatController extends AbstractController
         MapManager $mapManager
     ): Response {
         $boat = $boatRepository->findOneBy([]);
+
         $order = 'go' . $direction;
         $boat->$order();
+
         if($mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())){
             $entityManager->flush();
             if($mapManager->checkTreasure($boat)){
