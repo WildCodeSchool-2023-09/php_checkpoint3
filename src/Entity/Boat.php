@@ -83,4 +83,11 @@ class Boat
         $this->setCoordX($this->coordX -= 1);
         return $this;
     }
+
+    public function reset(): self
+    {
+        $this->setCoordX(0);
+        $this->setCoordY(0);
+        return $this;
+    }
 }

@@ -34,7 +34,6 @@ class BoatController extends AbstractController
     public function moveDirection(
         string $direction,
         BoatRepository $boatRepository,
-        TileRepository $tileRepository,
         EntityManagerInterface $entityManager,
         MapManager $mapManager
     ): Response {

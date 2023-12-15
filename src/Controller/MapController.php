@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Service\MapManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,5 +28,24 @@ class MapController extends AbstractController
             'map'  => $map ?? [],
             'boat' => $boat,
         ]);
+    }
+
+    #[Route('/start', name: 'start')]
+    public function start(BoatRepository$boatRepository, EntityManagerInterface $entityManager, TileRepository $tileRepository, MapManager $mapManager): Response
+    {
+        //reset boat(0,0)
+        $boat = $boatRepository->findOneBy([]);
+        $boat->reset();
+        //reset tiles
+        $treasureTile = $tileRepository->findOneBy(['hasTreasure' => true]);
+        if ($treasureTile !== null) {
+            $treasureTile->setHasTreasure(false);
+        }
+        //put treasure
+        $mapManager->getRandomIsland()->setHasTreasure(true);
+        //save
+        $entityManager->flush();
+        //redirect to map
+        return $this->redirectToRoute('map');
     }
 }
