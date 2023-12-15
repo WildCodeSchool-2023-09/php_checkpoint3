@@ -9,15 +9,18 @@ use App\Entity\Tile;
 use App\Repository\BoatRepository;
 use App\Repository\TileRepository;
 use App\Service\MapManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MapController extends AbstractController
 {
 
     private $mapManager;
+    private $entityManager;
 
-    public function __construct(MapManager $mapManager)
+    public function __construct(MapManager $mapManager, EntityManagerInterface $entityManager)
     {
         $this->mapManager = $mapManager;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -59,7 +62,7 @@ class MapController extends AbstractController
         }
 
         // Mettez à jour la base de données
-        $this->getDoctrine()->getManager()->flush();
+        $this->entityManager->flush();
 
         // Redirigez vers /map
         return $this->redirectToRoute('map');

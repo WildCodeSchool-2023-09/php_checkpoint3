@@ -4,14 +4,19 @@ namespace App\Service;
 
 use App\Repository\TileRepository;
 use App\Entity\Tile;
+use App\Entity\Boat;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MapManager
 {
     private $tileRepository;
+    private $entityManager;
 
-    public function __construct(TileRepository $tileRepository)
+
+    public function __construct(TileRepository $tileRepository, EntityManagerInterface $entityManager)
     {
         $this->tileRepository = $tileRepository;
+        $this->entityManager = $entityManager;
     }
 
     public function tileExists(int $x, int $y): bool
@@ -25,13 +30,30 @@ class MapManager
     {
         $islandTiles = $this->tileRepository->findBy(['type' => 'island']);
 
-     
         if (empty($islandTiles)) {
             return null;
         }
 
-        $randomIslandTile = $islandTiles[array_rand($islandTiles)];
+        return $islandTiles[array_rand($islandTiles)];
+    }
 
-        return $randomIslandTile;
+    public function removeTreasures(): void
+    {
+        $treasureTiles = $this->tileRepository->findBy(['hasTreasure' => true]);
+
+        foreach ($treasureTiles as $tile) {
+            $tile->setHasTreasure(false);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function checkTreasure(Boat $boat): bool
+    {
+        // Récupérez la tuile actuelle du bateau
+        $currentTile = $this->tileRepository->findOneBy(['coordX' => $boat->getCoordX(), 'coordY' => $boat->getCoordY()]);
+
+        // Vérifiez si la tuile actuelle a un trésor
+        return $currentTile !== null && $currentTile->isHasTreasure();
     }
 }

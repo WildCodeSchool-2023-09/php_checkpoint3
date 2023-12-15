@@ -75,6 +75,10 @@ public function moveDirection(string $direction,
 
             $entityManager->flush();
 
+            if ($this->mapManager->checkTreasure($boat)) {
+                $this->addFlash('success', 'Félicitations ! Vous avez trouvé un trésor.');
+            }
+
             return $this->redirectToRoute('map');
         } else {
             $this->addFlash('error', 'Mouvement invalide. La vignette de destination existe pas.');
