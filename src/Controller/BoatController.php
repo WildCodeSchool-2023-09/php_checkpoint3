@@ -42,6 +42,9 @@ class BoatController extends AbstractController
         $boat->$order();
         if($mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())){
             $entityManager->flush();
+            if($mapManager->checkTreasure($boat)){
+                $this->addFlash('success', 'You find the treasure ! Great job !');
+            }
 
             return $this->redirectToRoute('map');
         }
