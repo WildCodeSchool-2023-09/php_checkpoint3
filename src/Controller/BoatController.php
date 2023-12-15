@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Repository\BoatRepository;
+use App\Repository\TileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MapManager;
 
 #[Route('/boat')]
 class BoatController extends AbstractController
@@ -32,13 +34,19 @@ class BoatController extends AbstractController
     public function moveDirection(
         string $direction,
         BoatRepository $boatRepository,
-        EntityManagerInterface $entityManager
+        TileRepository $tileRepository,
+        EntityManagerInterface $entityManager,
+        MapManager $mapManager
     ): Response {
         $boat = $boatRepository->findOneBy([]);
         $order = 'go' . $direction;
         $boat->$order();
+        if($mapManager->tileExists($boat->getCoordX(), $boat->getCoordY())){
+            $entityManager->flush();
 
-        $entityManager->flush();
+            return $this->redirectToRoute('map');
+        }
+
 
         return $this->redirectToRoute('map');
     }
