@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\MapManager;
 use App\Entity\Boat;
 
     #[Route('/boat')]
@@ -52,12 +51,11 @@ use App\Entity\Boat;
             $direction['x'] -= 1;
         } elseif ($move === 'E') {
             $direction['x'] += 1;
-        } 
+        };
 
         if ($direction['x'] < 0 || $direction['x'] > 11 || $direction['y'] < 0 || $direction['y'] > 11.5) {
-            throw new \Exception('Tu sors de la carte !!!');
-        }
-
+            $this->addFlash('danger', 'Tu sors de la carte');
+        };
 
         $boat->setCoordX($direction['x']);
         $boat->setCoordY($direction['y']);
