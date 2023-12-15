@@ -61,7 +61,21 @@
 					<h2>
 						Navigation
 					</h2>
-					{# Add here N/S/E/W buttons #}
+					<form method="post" action="{{ path('moveDirectionBoat', {'direction': 'N'}) }}">
+						<button type="submit" name="direction" value="N">Nord</button>
+					</form>
+
+					<form method="post" action="{{ path('moveDirectionBoat', {'direction': 'S'}) }}">
+						<button type="submit" name="direction" value="S">Sud</button>
+					</form>
+
+					<form method="post" action="{{ path('moveDirectionBoat', {'direction': 'W'}) }}">
+						<button type="submit" name="direction" value="W">Ouest</button>
+					</form>
+
+					<form method="post" action="{{ path('moveDirectionBoat', {'direction': 'E'}) }}">
+						<button type="submit" name="direction" value="E">Est</button>
+					</form>
 				</div>
 			</div>
 		</div>
