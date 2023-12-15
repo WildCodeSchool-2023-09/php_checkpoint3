@@ -32,9 +32,21 @@ class MapController extends AbstractController
     }
 
     #[Route('/start', name: 'start')]
-    public function start(MapManager $mapManager) : Response{
+    public function start(MapManager $mapManager, EntityManagerInterface $entityManager) : Response{
 
+        $boat = $entityManager->getRepository(Boat::class)->findOneBy([]);
+        $boat->setCoordX(0);
+        $boat->setCoordY(0);
 
+        $randomIslandTile = $mapManager->getRandomIsland();
+
+        if ($randomIslandTile !== null) {
+            $randomIslandTile->setHasTreasure(true);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('map');
     }
 
 }
