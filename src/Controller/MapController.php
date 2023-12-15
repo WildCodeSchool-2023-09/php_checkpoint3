@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Boat;
 use App\Entity\Tile;
+use App\Service\MapManager;
 use App\Repository\BoatRepository;
 use App\Repository\TileRepository;
 
@@ -27,4 +30,11 @@ class MapController extends AbstractController
             'boat' => $boat,
         ]);
     }
+
+    #[Route('/start', name: 'start')]
+    public function start(MapManager $mapManager) : Response{
+
+
+    }
+
 }

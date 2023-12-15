@@ -54,7 +54,8 @@
 					<h2>
 						Information
 					</h2>
-					{# Add here informations about current ship position #}
+					<p>coordonnées du Pearl : {{ boat.coordX }} {{ boat.coordY }}</p>
+					<p>Type: {{ map[boat.coordX][boat.coordY].type }}</p>
 				</div>
 				<div
 					class="navigation">

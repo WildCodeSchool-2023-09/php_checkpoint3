@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\BoatRepository;
+use App\Service\MapManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,7 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{direction}', name: 'moveDirectionBoat')]
-    public function moveDirectionBoat($direction, BoatRepository $boatRepository,EntityManagerInterface $entityManager) : Response {
+    public function moveDirectionBoat($direction, BoatRepository $boatRepository,EntityManagerInterface $entityManager, MapManager $mapManager) : Response {
 
         $validDirection = ['N', 'S', 'E', 'W'];
 
@@ -47,11 +48,17 @@ class BoatController extends AbstractController
         } elseif($direction === 'S'){
             $y ++;
         } elseif($direction === 'W'){
-            $x ++;
-        } elseif($direction === 'E'){
             $x --;
+        } elseif($direction === 'E'){
+            $x ++;
         } else {
             throw $this->createNotFoundException('direction invalide');
+        }
+
+        if(!$mapManager->tileExists($x, $y)) {
+            $this->addFlash('message', 'NON, reviens tu vas te perdre');
+
+            return $this->redirectToRoute('map', [], Response::HTTP_SEE_OTHER);
         }
 
         $boat->setCoordX($x);
