@@ -27,6 +27,10 @@ class BoatController extends AbstractController
         $boat->setCoordX($x);
         $boat->setCoordY($y);
 
+        if ($this->mapManager->checkTreasure($boat)) {
+            $this->addFlash('success', 'Féliciations ! Tu as trouvé le trésor !');
+        }
+
         $entityManager->flush();
         
         return $this->redirectToRoute('map');
@@ -62,15 +66,19 @@ class BoatController extends AbstractController
         }
 
         if (!$this->mapManager->tileExists($newX, $newY)) {
-            $this->addFlash('error', 'LE BATEAU NE PEUT PAS ALLER DANS CETTE DIRECTION !!!');
+            $this->addFlash('danger', 'Le bateau ne peut pas aller dans cette direction !!!');
             return $this->redirectToRoute('map');
         }
-    
+
         $boat->setCoordX($newX);
         $boat->setCoordY($newY);
+
+        if ($this->mapManager->checkTreasure($boat)) {
+            $this->addFlash('success', 'Féliciations ! Tu as trouvé le trésor !!!');
+        }
+
         $entityManager->flush();
     
         return $this->redirectToRoute('map');
-
     }
 }
