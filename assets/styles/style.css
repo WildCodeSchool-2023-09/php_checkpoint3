@@ -102,4 +102,13 @@ blockquote {
     font-style: italic;
     margin-top:0.5em;
 }
+/* boutons meme s'ils apparraissent pas */
+.buttons {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    color: #E6E6FA;
+    text-decoration: none;
+    size: 100px
+}
 

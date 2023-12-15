@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Map{% endblock %}
+
+{% block body %}
+    <h1>Map</h1>
+    <div class="buttons">
+        <a href="{{ path('moveDirection', {'direction': 'N'}) }}">Move North</a>
+        <a href="{{ path('moveDirection', {'direction': 'S'}) }}">Move South</a>
+        <a href="{{ path('moveDirection', {'direction': 'E'}) }}">Move East</a>
+        <a href="{{ path('moveDirection', {'direction': 'W'}) }}">Move West</a>
+    </div>
+{% endblock %}
