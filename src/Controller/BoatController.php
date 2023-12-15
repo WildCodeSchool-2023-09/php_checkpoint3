@@ -7,17 +7,21 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MapManager;
 
 #[Route('/boat')]
 class BoatController extends AbstractController
 {
+    private $mapManager;
+
+    public function __construct(MapManager $mapManager)
+    {
+        $this->mapManager = $mapManager;
+    }
+
     #[Route('/move/{x<\d+>}/{y<\d+>}', name: 'moveBoat')]
-    public function moveBoat(
-        int $x,
-        int $y,
-        BoatRepository $boatRepository,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function moveBoat(int $x, int $y, BoatRepository $boatRepository, EntityManagerInterface $entityManager): Response 
+    {
         $boat = $boatRepository->findOneBy([]);
         
         $boat->setCoordX($x);
@@ -29,33 +33,44 @@ class BoatController extends AbstractController
     }
 
     #[Route('/direction/{direction}', name: 'moveDirection')]
-    public function moveDirection(string $direction, BoatRepository $boatRepository, EntityManagerInterface $entityManager): Response {
+    public function moveDirection(string $direction, BoatRepository $boatRepository, EntityManagerInterface $entityManager): Response 
+    {
         $boat = $boatRepository->findOneBy([]);
 
         if (!$boat) {
             throw $this->createNotFoundException('No boat found');
         }
 
+        $newX = $boat->getCoordX();
+        $newY = $boat->getCoordY();
+
         switch ($direction) {
             case 'N':
-                $boat->setCoordY($boat->getCoordY() - 1);
+                $newY -= 1;
                 break;
             case 'S':
-                $boat->setCoordY($boat->getCoordY() + 1);
+                $newY += 1;
                 break;
             case 'E':
-                $boat->setCoordX($boat->getCoordX() + 1);
+                $newX += 1;
                 break;
             case 'W':
-                $boat->setCoordX($boat->getCoordX() - 1);
+                $newX -= 1;
                 break;
             default:
                 throw $this->createNotFoundException('Invalid direction');
         }
 
+        if (!$this->mapManager->tileExists($newX, $newY)) {
+            $this->addFlash('error', 'LE BATEAU NE PEUT PAS ALLER DANS CETTE DIRECTION !!!');
+            return $this->redirectToRoute('map');
+        }
+    
+        $boat->setCoordX($newX);
+        $boat->setCoordY($newY);
         $entityManager->flush();
-
-        // Redirection vers la carte
+    
         return $this->redirectToRoute('map');
+
     }
 }
