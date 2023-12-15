@@ -19,24 +19,30 @@ class BoatController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $boat = $boatRepository->findOneBy([]);
-        
+
+        if (!$boat) {
+            throw $this->createNotFoundException('No boat found');
+        }
+
         $boat->setCoordX($x);
         $boat->setCoordY($y);
 
         $entityManager->flush();
-        
+
         return $this->redirectToRoute('map');
     }
-      /**
-     * @Route("/boat/direction/{direction}", name="move_direction", requirements={"direction"="[NSWE]"})
-     */
-    public function moveDirection(string $direction, BoatRepository $boatRepository, EntityManagerInterface $entityManager): Response {
+
+    #[Route('/direction/{direction}', name: 'move_direction', requirements: ['direction' => '[NSWE]'])]
+    public function moveDirection(
+        string $direction,
+        BoatRepository $boatRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $boat = $boatRepository->findOneBy([]);
-
-
 
         if (!$boat) {
             throw $this->createNotFoundException('No boat found');
+        }
 
         // Get current boat coordinates
         $coordinates = $boat->getCoordinates();
@@ -68,12 +74,9 @@ class BoatController extends AbstractController
         // Update Boat coordinates
         $boat->setCoordinates([$x, $y]);
 
-        
         $entityManager->flush();
 
         // Redirect to the map
         return $this->redirectToRoute('map');
-    }
-    
     }
 }
