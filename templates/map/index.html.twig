@@ -55,6 +55,13 @@
 						Information
 					</h2>
 					{# Add here informations about current ship position #}
+					<p>
+					Coordonées du bateau <br>
+						longitude : {{ boat.coordX }}. <br>
+						latitude : {{ boat.coordY }}.
+					<br>
+					position : {{ map[boat.coordX][boat.coordY].type }}.
+					</p>
 				</div>
 				<div
 					class="navigation">
