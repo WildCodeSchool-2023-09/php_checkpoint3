@@ -61,7 +61,18 @@
 					<h2>
 						Navigation
 					</h2>
-					{# Add here N/S/E/W buttons #}
+					<a href="{{ path('boat_moveDirection', {'direction': direction.north}) }}">
+						North
+					</a>
+					<a href="{{ path('boat_moveDirection', {'direction': direction.east}) }}">
+						East
+					</a>
+					<a href="{{ path('boat_moveDirection', {'direction': direction.south}) }}">
+						South
+					</a>
+					<a href="{{ path('boat_moveDirection', {'direction': direction.west}) }}">
+						West
+					</a>
 				</div>
 			</div>
 		</div>
