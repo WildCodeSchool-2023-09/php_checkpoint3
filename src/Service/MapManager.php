@@ -17,4 +17,10 @@ class MapManager
         }
         return false;
     }
+
+    public function getRandomIsland(): Tile
+    {
+        $islandTiles = $this->tileRepository->findBy(['type' => 'island']);
+        return $islandTiles[array_rand($islandTiles)];
+    }
 }
