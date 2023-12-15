@@ -7,10 +7,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\MapManager;
+
 
 #[Route('/boat')]
 class BoatController extends AbstractController
 {
+
+    private $mapManager;
+
+    public function __construct(MapManager $mapManager)
+    {
+        $this->mapManager = $mapManager;
+    }
+
     #[Route('/move/{x<\d+>}/{y<\d+>}', name: 'moveBoat')]
     public function moveBoat(
         int $x,
@@ -51,8 +61,21 @@ public function moveDirection(string $direction,
                 throw $this->createNotFoundException('Invalid direction');
         }
 
-        $entityManager->flush();
+        // Check if the new tile exists
+        if ($this->mapManager->tileExists($newX ?? $boat->getCoordX(), $newY ?? $boat->getCoordY())) {
+            if (isset($newX)) {
+                $boat->setCoordX($newX);
+            }
+            if (isset($newY)) {
+                $boat->setCoordY($newY);
+            }
 
-        return $this->redirectToRoute('map');
+            $entityManager->flush();
+
+            return $this->redirectToRoute('map');
+        } else {
+          
+            return $this->redirectToRoute('map');
+        }
     }
 }
