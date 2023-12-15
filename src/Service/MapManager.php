@@ -7,15 +7,17 @@ use App\Repository\TileRepository;
 
 //public function tileExists($x, $y): bool
 
-// getRandomIsland()
+// getRandomIsland(TileRepository $tileRepository, string $tileType, array $islandTiles)
 
 //first get all these in an array:
 
-//$islandTiles =
+//$islandTiles = $tileRepository->findBy(['type' => $tileType]);
 
 // then return a random tile with island type:
 
-// array_rand($islandTiles, 1)
+// $result = array_rand($islandTiles, 1)
+
+// return $result
 
 // checkTreasure($boat): bool
 
