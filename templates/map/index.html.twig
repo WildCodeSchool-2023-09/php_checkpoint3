@@ -23,24 +23,28 @@
 							class="row">
 							{% for x in 0..12 %}
 								{% if map[x][y] is defined %}
+
+								<div
+									class="tile col-1 {{ map[x][y].type }}">
+									<a href="{{ path('moveBoat', {x: x, y: y}) }}">
 									<div
-										class="tile col-1 {{ map[x][y].type }}">
-										<div
-											class="tile-name">
-											{{ map[x][y].name ?? ' '}}
-										</div>
-										<div
-											class="tile-name coords">
-											{{ map[x][y].coordX }}
-											,
-											{{ map[x][y].coordY }}
-										</div>
-										{% if boat.coordX == x and boat.coordY == y %}
-											<img
-												class="boat img-fluid"
-												src="{{ asset('build/images/boat.png') }}" alt="boat"/>
-										{% endif %}
+										class="tile-name">
+										{{ map[x][y].name ?? ' '}}
 									</div>
+									<div
+										class="tile-name coords">
+										{{ map[x][y].coordX }}
+										,
+										{{ map[x][y].coordY }}
+									</div>
+									{% if boat.coordX == x and boat.coordY == y %}
+										<img
+											class="boat img-fluid"
+											src="{{ asset('build/images/boat.png') }}" alt="boat"/>
+									{% endif %}
+									</a>
+								</div>
+
 								{% endif %}
 							{% endfor %}
 						</div>
@@ -54,6 +58,17 @@
 					<h2>
 						Information
 					</h2>
+					{% if tile is defined %}
+						<ul>
+						<li>X : {{ tile.coordX }}</li>
+						<li>Y : {{ tile.coordY }}</li>
+						<li>Type : {{ tile.type }}</li>
+						</ul>
+					{% endif %}
+					{#
+					<li>Boat : {{ boat.coordX }}, {{ boat.coordY }}</li>
+					<li>Tile type : {{ map[boat.coordX][boat.coordY].type }}</li>
+					#}
 					{# Add here informations about current ship position #}
 				</div>
 				<div
@@ -61,6 +76,19 @@
 					<h2>
 						Navigation
 					</h2>
+					<button>
+						<a href="{{ path('direction', { dir: 'N' }) }}">N</a>
+					</button>
+					<button>
+						<a href="{{ path('direction', { dir: 'S' }) }}">S</a>
+					</button>
+					<button>
+						<a href="{{ path('direction', { dir: 'E' }) }}">E</a>
+					</button>
+					<button>
+						<a href="{{ path('direction', { dir: 'W' }) }}">W</a>
+					</button>
+
 					{# Add here N/S/E/W buttons #}
 				</div>
 			</div>
